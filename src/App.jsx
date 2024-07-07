@@ -7,6 +7,7 @@ import Forget from './Components/OTP/forgetPass'
 import FootballHistoryCard from './Components/History Page/History'
 import Mycard from './Components/Detail/Mycard'
 function App() {
+  
 
   return (
     <>

@@ -3,7 +3,6 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import FootballHistoryCard from '../History Page/History';
 
-// Array of card data
 const cardData = [
   {
     imageUrl: 'https://i.pinimg.com/736x/67/f8/50/67f85072ec623995f7667c1caea2a237.jpg',
@@ -19,12 +18,23 @@ const cardData = [
   }
 ];
 
-export default function CardGrid({title}) {
+const cardContent = {
+  imageUrl: "https://i.pinimg.com/736x/59/a7/78/59a778d53fbefe383abab0dc898421d2.jpg",
+  title: "ប្រវិត្តនៃ កីឡារបាល់ទាត់",
+  paragraphs: [
+    "Example paragraph 1",
+    "Example paragraph 2",
+    "Example paragraph 3",
+    "Example paragraph 4",
+    "Example paragraph 5",
+  ],
+};
+
+export default function CardGrid({ title }) {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 
   useEffect(() => {
-    // Simulate slow loading with a delay of 2 seconds
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -32,53 +42,68 @@ export default function CardGrid({title}) {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleCardClick = (index) => {
+    setSelectedCardIndex(index);
+    document.body.style.backgroundColor = '#f0f0f0';
+  };
+
+  const handleCloseCard = () => {
+    setSelectedCardIndex(null);
+    document.body.style.backgroundColor = '';
+  };
+
   if (isLoading) {
     return (
-      <div className='w-full -mt-96'> 
+      <div className='w-full -mt-96'>
         <h4 className="text-xl sm:text-3xl md:text-6xl font-bold pt-96 px-11 pb-14 animate-pulse text-center">
-        Loading...
-      </h4>
-      <div className="w-9/12 m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-16">
-        {cardData.map((card, index) => (
-          <div key={index} className="block max-w-sm rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white animate-pulse">
-            <div className="relative overflow-hidden bg-gray-300 rounded-t-lg" style={{ paddingBottom: '66.6667%' }}>
-              <Skeleton height="100%" />
+          Loading...
+        </h4>
+        <div className="w-9/12 m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-16">
+          {cardData.map((card, index) => (
+            <div key={index} className="block max-w-sm rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white animate-pulse">
+              <div className="relative overflow-hidden bg-gray-300 rounded-t-lg" style={{ paddingBottom: '66.6667%' }}>
+                <Skeleton height="100%" />
+              </div>
+              <div className="p-6">
+                <Skeleton count={3} />
+              </div>
             </div>
-            <div className="p-6">
-              <Skeleton count={3} />
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </div>
     );
   }
 
-  
-    const handleCardClick = (index) => {
-      if (selectedCardIndex === null || selectedCardIndex === index) {
-        setSelectedCardIndex(index);
-      }
-     
-    };
-
   return (
-    <div className='w-full -mt-96'>
+    <div className='w-full -mt-80'>
       <h4 className="text-xl sm:text-3xl md:text-6xl font-bold pt-96 px-11 pb- text-center">
         {title || 'Default Title'}
       </h4>
-    <div className="w-9/12 m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-16">
-      {cardData.map((card, index) => (
-        <button onClick={() => handleCardClick(index)} key={index} className="block max-w-sm rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white">
-          <div className="relative overflow-hidden bg-cover bg-no-repeat rounded-t-lg" style={{ paddingBottom: '66.6667%', backgroundImage: `url(${card.imageUrl})` }}></div>
-          <div className="p-6">
-            <p className="text-base">{card.text}</p>
+      <div className="w-9/12 m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-16">
+        {cardData.map((card, index) => (
+          <button 
+            onClick={() => handleCardClick(index)} 
+            key={index} 
+            className={`block max-w-sm rounded-lg bg-slate-200 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white ${selectedCardIndex === index ? 'bg-blue-200' : ''}`}
+          >
+            <div 
+              className="relative overflow-hidden bg-cover bg-no-repeat rounded-t-lg" 
+              style={{ paddingBottom: '66.6667%', backgroundImage: `url(${card.imageUrl})` }}
+            ></div>
+            <div className="p-6">
+              <p className="text-base">{card.text}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+      {selectedCardIndex !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center  justify-center z-50">
+          <div className="  rounded-lg w-4/5  h-5/6 overflow-auto">
+           
+            <FootballHistoryCard {...cardContent} onClose={handleCloseCard}  />
           </div>
-        </button>
-      ))}
-    </div>
-    {selectedCardIndex !== null && <FootballHistoryCard imageUrl={'https://i.pinimg.com/736x/74/41/7f/74417fed1b630e232c8eb9d78de725eb.jpg'}/>}
+        </div>
+      )}
     </div>
   );
 }
-

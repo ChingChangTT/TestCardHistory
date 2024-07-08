@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../index.css'; // Import the Tailwind CSS file
 
 export default function HeroSection({ imageUrl, title }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,24 +15,22 @@ export default function HeroSection({ imageUrl, title }) {
   if (isLoading) {
     return (
       <section
-      className="w-full relative max-h-fit bg-no-repeat bg-center p-4 mb-16"
-      style={{
-        backgroundImage: `url(${placeholderImageUrl})`,
-        backgroundSize: 'cover',
-        animation: 'pulse 2s infinite',
-      }}
-    >
-      {/* Skeleton for the title */}
-      <h4 className="text-xl sm:text-3xl md:text-6xl font-bold pt-96 px-11 pb-14 animate-pulse">
-        Loading...
-      </h4>
-    </section>
+        className="w-full relative max-h-fit bg-no-repeat bg-center p-4 mb-16 bg-cover animate-pulse"
+        style={{
+          backgroundImage: `url(${placeholderImageUrl})`,
+        }}
+      >
+        {/* Skeleton for the title */}
+        <h4 className="text-xl sm:text-3xl md:text-6xl font-bold pt-96 px-11 pb-14 animate-pulse">
+          Loading...
+        </h4>
+      </section>
     );
   }
 
   return (
     <section
-      className="w-full relative max-h-fit bg-cover bg-center mb-14 "
+      className="w-full relative max-h-fit bg-cover bg-center mb-14 animate-fade"
       style={{ backgroundImage: `url(${imageUrl})` }}
     >
       <h4 className="text-xl sm:text-3xl md:text-6xl font-bold pt-96 px-11 pb-14">

@@ -39,17 +39,39 @@ export default function CardGrid({ title }) {
       setIsLoading(false);
     }, 2000);
 
-    return () => clearTimeout(timer);
+    const path = window.location.pathname;
+    if (path === '/history') {
+      setSelectedCardIndex(0); 
+    }
+
+    const handlePopState = () => {
+      if (window.location.pathname === '/history') {
+        setSelectedCardIndex(0);
+        document.body.style.backgroundColor = '#f0f0f0';
+      } else {
+        setSelectedCardIndex(null);
+        document.body.style.backgroundColor = '';
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
     document.body.style.backgroundColor = '#f0f0f0';
+    window.history.pushState({}, '', '/history'); 
   };
 
   const handleCloseCard = () => {
     setSelectedCardIndex(null);
     document.body.style.backgroundColor = '';
+    window.history.pushState({}, '', '/'); 
   };
 
   if (isLoading) {
@@ -97,10 +119,9 @@ export default function CardGrid({ title }) {
         ))}
       </div>
       {selectedCardIndex !== null && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center  justify-center z-50">
-          <div className="  rounded-lg w-4/5  h-5/6 overflow-auto">
-           
-            <FootballHistoryCard {...cardContent} onClose={handleCloseCard}  />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="rounded-lg w-4/5 h-5/6 overflow-auto">
+            <FootballHistoryCard {...cardContent} onClose={handleCloseCard} />
           </div>
         </div>
       )}

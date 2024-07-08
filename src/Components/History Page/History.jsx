@@ -20,12 +20,12 @@ const FootballHistoryCard = ({ imageUrl, onClose, title, paragraphs }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // 2 seconds loading time for demonstration
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
   const handleClick = () => {
-    // Implement your navigation logic here
+   
   };
 
   return (

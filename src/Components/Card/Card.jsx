@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import FootballHistoryCard from '../History Page/History';
 
 const cardData = [
   {
@@ -21,61 +20,16 @@ const cardData = [
   }
 ];
 
-const cardContent = {
-  imageUrl: "https://i.pinimg.com/736x/59/a7/78/59a778d53fbefe383abab0dc898421d2.jpg",
-  title: "ប្រវិត្តនៃ កីឡារបាល់ទាត់",
-  paragraphs: [
-    "Example paragraph 1",
-    "Example paragraph 2",
-    "Example paragraph 3",
-    "Example paragraph 4",
-    "Example paragraph 5",
-  ],
-};
-
 export default function CardGrid({ title }) {
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
 
-    const path = window.location.pathname;
-    if (path === '/history') {
-      setSelectedCardIndex(0); 
-    }
-
-    const handlePopState = () => {
-      if (window.location.pathname === '/history') {
-        setSelectedCardIndex(0);
-        document.body.style.backgroundColor = '#f0f0f0';
-      } else {
-        setSelectedCardIndex(null);
-        document.body.style.backgroundColor = '';
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('popstate', handlePopState);
-    };
+    return () => clearTimeout(timer);
   }, []);
-
-  const handleCardClick = (index) => {
-    setSelectedCardIndex(index);
-    document.body.style.backgroundColor = '#f0f0f0';
-    window.history.pushState({}, '', '/history'); 
-  };
-
-  const handleCloseCard = () => {
-    setSelectedCardIndex(null);
-    document.body.style.backgroundColor = '';
-    window.history.pushState({}, '', '/'); 
-  };
 
   if (isLoading) {
     return (
@@ -106,33 +60,23 @@ export default function CardGrid({ title }) {
       </h4>
       <div className="w-9/12 m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mt-16">
         {cardData.map((card, index) => (
-          <button 
-            onClick={() => handleCardClick(index)} 
+          <div 
             key={index} 
-            className={`relative  block w-full h-full rounded-lg overflow-hidden bg-slate-200 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white transition-transform transform hover:scale-105 ${selectedCardIndex === index ? 'bg-blue-200' : ''}`}
+            className="relative block w-full h-[400px] rounded-lg overflow-hidden bg-slate-200 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white transition-transform transform hover:scale-105"
           >
-            <div 
-              className="relative overflow-hidden max-h-96" 
-              style={{ paddingBottom: '66.6667%' }}
-            >
-              <img src={card.imageUrl} alt="Card" className="block absolute inset-0 w-full max-h-svh object-cover" />
-              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity">
-                <div className="text-white text-center p-4">
-                  <h3 className="font-bold text-xl mb-2">{card.title}</h3>
-                  <p>{card.text}</p>
-                </div>
+            <div className="relative overflow-hidden h-full">
+              <img src={card.imageUrl} alt="Card" className="block absolute inset-0 w-full h-full object-cover" />
+              <div 
+        className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white text-center p-4 h-10 transition-all duration-300 ease-in-out hover:h-20"
+      >
+
+                <h3 className="font-bold text-lg mb-1">{card.title}</h3>
+                <p className="text-sm">{card.text}</p>
               </div>
             </div>
-          </button>
+          </div>
         ))}
       </div>
-      {selectedCardIndex !== null && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="rounded-lg w-4/5 h-5/6 overflow-auto">
-            <FootballHistoryCard {...cardContent} onClose={handleCloseCard} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

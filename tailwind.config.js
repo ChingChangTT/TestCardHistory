@@ -30,6 +30,7 @@ module.exports = {
       transform: ['hover', 'focus'],
       scale: ['hover', 'focus'],
       transitionProperty: ['hover', 'focus'],
+      width: ['hover', 'focus'],
     },
   },
   plugins: [],

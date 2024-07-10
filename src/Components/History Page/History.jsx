@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { motion } from "framer-motion";
 import { GiBeachBall } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 const AdvertisementCard = ({ imageUrl, title }) => (
   <motion.div
     className="bg-blue-500 text-white p-4 rounded-lg shadow-md m-4"
@@ -19,9 +20,10 @@ const AdvertisementCard = ({ imageUrl, title }) => (
   </motion.div>
 );
 
+
 const FootballHistoryCard = ({ imageUrl, onClose, title, paragraphs }) => {
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate(); 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -51,9 +53,9 @@ const FootballHistoryCard = ({ imageUrl, onClose, title, paragraphs }) => {
       {isLoading ? (
         <Skeleton circle={true} height={48} width={48} />
       ) : (
-        <button onClick={onClose}>
-          <RiArrowGoBackFill className="text-3xl sm:text-5xl mb-4 sm:mb-0" />
-        </button>
+        <button onClick={() => navigate('/')} className="your-button-class">
+        <RiArrowGoBackFill className="text-3xl sm:text-5xl mb-4 sm:mb-0" />
+      </button>
       )}
       <h1 className="text-center font-bold text-3xl sm:text-3xl md:text-4xl lg:text-6xl mb-4 sm:mb-0">
         {isLoading ? (
@@ -103,6 +105,7 @@ const FootballHistoryCard = ({ imageUrl, onClose, title, paragraphs }) => {
       </div>
     </div>
   </div>
+  
 </div>
 
   );

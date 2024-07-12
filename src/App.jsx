@@ -1,15 +1,29 @@
 
 import './App.css'
-import CardComponents from './Components/Card/Card'
+import CardGrid from './Components/Card/Card'
 import HeroSection from './Components/Hero Section/Hero'
-
+import { fetchContent } from './Components/Card/CardSlice';
+import React, { useEffect } from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store from './Redux/app/store'
 function App() {
+  const dispatch = useDispatch();
+  const content = useSelector(state => state.content);
+  useEffect(() => {
+        dispatch(fetchContent());
+      }, [dispatch]);
+    
+      useEffect(() => {
+        console.log('Current State:', content);
+      }, [content]);
+    
+
   return (
     <>
       <HeroSection imageUrl={'https://i.pinimg.com/736x/74/8f/98/748f98fafbe781229a6d2827a1174c32.jpg'} />
       <div>
       {Array.from({ length: 8 }).map((_, index) => (
-          <CardComponents key={index}  />
+          <CardGrid key={index}  />
         ))}
       </div>
       {/* <FootballHistoryCard imageUrl={'https://i.pinimg.com/564x/8e/22/df/8e22df0ce1e1615a331cee38cd5fce50.jpg'} />   */}

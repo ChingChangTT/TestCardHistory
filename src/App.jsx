@@ -2,20 +2,18 @@
 import './App.css'
 import CardGrid from './Components/Card/Card'
 import HeroSection from './Components/Hero Section/Hero'
-import { fetchContent } from './Components/Card/CardSlice';
-import React, { useEffect } from 'react';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import store from './Redux/app/store'
+import AllProducts from './Redux/Feature/ContentList'
+import ContentList from './Redux/Feature/ContentList'
 function App() {
-  const dispatch = useDispatch();
-  const content = useSelector(state => state.content);
-  useEffect(() => {
-        dispatch(fetchContent());
-      }, [dispatch]);
+  // const dispatch = useDispatch();
+  // const content = useSelector(state => state.content);
+  // useEffect(() => {
+  //       dispatch(fetchContent());
+  //     }, [dispatch]);
     
-      useEffect(() => {
-        console.log('Current State:', content);
-      }, [content]);
+  //     useEffect(() => {
+  //       console.log('Current State:', content);
+  //     }, [content]);
     
 
   return (
@@ -39,7 +37,7 @@ function App() {
     />
   )}
 </div> */}
-
+   <AllProducts/>
     </>
   )
 }

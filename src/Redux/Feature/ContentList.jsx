@@ -1,31 +1,31 @@
-import React, { useEffect } from "react";
-import { useGetAllProductQuery } from "./contentReducer";
 
-const AllProducts = () => {
-  const { data, isError, isLoading } = useGetAllProductQuery();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+import FootballHistoryCard from '../../Components/History Page/History';
+import { useGetAllContentQuery } from '../Feature/contentReducer'; // Adjust import path as necessary
 
-  if (isError) {
-    return <h1>Oh no! We got an error</h1>;
+const HistoryResult = () => {
+  const { data: contentApi, isError, isLoading } = useGetAllContentQuery();
+console.log(contentApi)
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
+  if (isError) {
+    return <div>Error: {isError.message}</div>;
   }
 
   return (
-    <div>
-      {data?.history?.map((product) => (
-        <div key={product.id}>
-          <h1>{product.title}</h1>
-          <p>{product.body}</p>
-        </div>
+    <div className="history-result">
+      {contentApi && contentApi.map((content) => (
+        <FootballHistoryCard
+          key={content.id}
+          imageUrl={content.thumbnail}
+          title={content.title}
+          paragraphs={[content.body]} 
+        />
       ))}
     </div>
   );
 };
 
-export default AllProducts;
+export default HistoryResult;
